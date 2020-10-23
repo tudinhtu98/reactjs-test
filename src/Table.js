@@ -1,35 +1,28 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 const TableHeader = () => (
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Remove</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Remove</th>
     </tr>
   </thead>
 );
 
 const TableBody = (props) => {
-  // return (
-  //   <tbody>
-  //     <tr key="1">
-  //       <td>a</td>
-  //       <td>b</td>
-  //       <td>
-  //         <button onClick={() => props.removePerson(0)}>Delete</button>
-  //       </td>
-  //     </tr>
-  //   </tbody>
-  // );
   const rows = props.characters?.map((row, index) => {
     return (
       <tr key={index}>
         <td>{row.name}</td>
         <td>{row.email}</td>
         <td>
-          <button onClick={() => props.removePerson(index)}>Delete</button>
+          <button
+            onClick={() => props.removePerson(index)}
+            class="btn btn-primary"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     );
@@ -38,35 +31,12 @@ const TableBody = (props) => {
 };
 
 class Table extends Component {
-  state = {};
-
-  componentDidMount() {
-    axios
-      // .get("https://tudinhtu98-nodejs-typescript-test.glitch.me")
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then((res) => {
-        const persons = res.data;
-        this.setState({ persons });
-      });
-  }
-
-  removePerson = (index) => {
-    const { persons } = this.state;
-
-    this.setState({
-      persons: persons.filter((character, i) => {
-        return i !== index;
-      }),
-    });
-  };
-
   render() {
-    const { persons } = this.state;
-    console.log("this.state", this.state);
+    const { persons, removePerson } = this.props;
     return (
-      <table border="1" align="center" height="200px" width="900px">
+      <table class="table table-bordered">
         <TableHeader />
-        <TableBody characters={persons} removePerson={this.removePerson} />
+        <TableBody characters={persons} removePerson={removePerson} />
       </table>
     );
   }
